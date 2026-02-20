@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Analytics Bronnen 2025-2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #E60005;
+            /* HAN Red */
+            --primary-dark: #b30004;
+            --secondary-color: #333;
+            --bg-color: #F4F6F8;
+            --text-color: #212529;
+            --card-bg: #FFFFFF;
+            --sidebar-width: 280px;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            background: var(--primary-color);
+        }
+
+        #search-box {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color var(--transition-speed);
+        }
+
+        #search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(230, 0, 5, 0.1);
+        }
+
+        #toc {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .toc-item {
+            display: block;
+            padding: 10px 20px;
+            color: #555;
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s;
+            border-left: 3px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .toc-item:hover,
+        .toc-item.active {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        #back-to-top {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 24px;
+            border: none;
+            outline: none;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            padding: 10px 16px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+
+        #back-to-top:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Prevent :hover replacement block from matching again later if we run this twice somehow, but it shouldn't matter */
+
+        /* Main Content */
+        #content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        #content h2 {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.5rem;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            padding: 12px 20px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(230, 0, 5, 0.15);
+        }
+
+        p {
+            line-height: 1.6;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+        }
+
+        /* Card Grid */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: #ddd;
+        }
+
+        .card-thumb {
+            height: 180px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.5s;
+        }
+
+        .card:hover .card-thumb img {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+        }
+
+        .card-title a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .card-title a:hover {
+            color: var(--primary-color);
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: #eee;
+            color: #555;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.pdf {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .badge.link {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        /* Images in content */
+        img.content-img {
+            max-width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            object-position: left;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 20px 0;
+            cursor: zoom-in;
+            transition: transform 0.2s;
+        }
+
+        img.content-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            cursor: zoom-out;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .error-message {
+            color: red;
+            background: #ffebee;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ffcdd2;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                overflow: auto;
+                height: auto;
+            }
+
+            #sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                position: relative;
+            }
+
+            #content {
+                padding: 20px;
+            }
+
+            .sidebar-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            #toc {
+                display: none;
+            }
+
+            #sidebar.expanded #toc {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <img class="image-modal-content" id="expandedImg" alt="Vergrote afbeelding">
+    </div>
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <input type="text" id="search-box" placeholder="Zoeken..." aria-label="Zoeken">
+        </div>
+        <div id="toc">
+            <!-- TOC will be generated here -->
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="container" id="main-container">
+            <!-- Content will be rendered here -->
+            <div>Laden van markdown...</div>
+        </div>
+    </div>
+
+    <button id="back-to-top" title="Terug naar boven">↑</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchBox = document.getElementById('search-box');
+            const mainContainer = document.getElementById('main-container');
+            const tocContainer = document.getElementById('toc');
+
+            // 1. Fetch the markdown file
+            fetch('LA-2025-2026 bronnen.md')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(markdownText => {
+                    // Pre-process markdown to replace spaces in link URLs with %20
+                    // This fixes an issue where marked.js fails to parse links like [Title](folder/my file.pdf)
+                    markdownText = markdownText.replace(/\]\(([^)]+)\)/g, function (match, url) {
+                        return '](' + url.replace(/ /g, '%20') + ')';
+                    });
+
+                    // 2. Render Markdown to HTML
+                    const rawHtml = marked.parse(markdownText);
+                    mainContainer.innerHTML = rawHtml;
+
+                    // 3. Post-process the DOM to create Cards and TOC
+                    postProcessHTML();
+                })
+                .catch(error => {
+                    console.error("Fout bij laden van markdown:", error);
+                    mainContainer.innerHTML = `
+                        <div class="error-message">
+                            <h3>Kan het bestand 'LA-2025-2026 bronnen.md' niet laden.</h3>
+                            <p>Let op: Web browsers blokkeren vaak het direct inladen van lokale bestanden (file:// protocol) vanwege veiligheidsredenen (CORS).</p>
+                            <p><strong>Oplossing:</strong> Open deze map in een lokale webserver, bijvoorbeeld via VS Code (Live Server extensie) of via Python in de terminal: <code>python -m http.server</code> (en ga dan naar http://localhost:8000).</p>
+                            <p>Foutmelding: ${error.message}</p>
+                        </div>
+                    `;
+                });
+
+            function postProcessHTML() {
+                // Determine IDs for headers and build TOC
+                const headers = mainContainer.querySelectorAll('h2');
+                let tocHtml = '';
+                headers.forEach(h2 => {
+                    const text = h2.textContent;
+                    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                    h2.id = id;
+                    tocHtml += `<a href="#${id}" class="toc-item">${text}</a>`;
+                });
+                tocContainer.innerHTML = tocHtml;
+
+                // Process images that are not in cards
+                const images = mainContainer.querySelectorAll('img');
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('expandedImg');
+
+                images.forEach(img => {
+                    img.classList.add('content-img');
+                    img.title = "Klik om te vergroten";
+                    img.onclick = function () {
+                        modal.style.display = "flex";
+                        modalImg.src = this.src;
+                    }
+                });
+
+                // Close modal on click
+                modal.onclick = function () {
+                    modal.style.display = "none";
+                };
+
+                // Transform lists with links into resource grids
+                const uls = mainContainer.querySelectorAll('ul');
+                uls.forEach(ul => {
+                    // Opt-out mechanism: check inside the ul, the previous comment node, or previous element
+                    let shouldSkip = ul.innerHTML.includes('no-cards');
+                    let prevNode = ul.previousSibling;
+                    while (prevNode && !shouldSkip && (prevNode.nodeType === Node.COMMENT_NODE || prevNode.nodeType === Node.TEXT_NODE)) {
+                        if (prevNode.nodeType === Node.COMMENT_NODE && prevNode.nodeValue.includes('no-cards')) {
+                            shouldSkip = true;
+                        }
+                        prevNode = prevNode.previousSibling;
+                    }
+                    if (!shouldSkip && ul.previousElementSibling && ul.previousElementSibling.innerHTML.includes('no-cards')) {
+                        shouldSkip = true;
+                    }
+
+                    if (shouldSkip) return;
+
+                    const firstLi = ul.querySelector('li');
+                    if (!firstLi) return;
+
+                    const firstLink = firstLi.querySelector('a');
+                    // We only transform if the first item has a link
+                    if (!firstLink) return;
+
+                    const gridDiv = document.createElement('div');
+                    gridDiv.className = 'resource-grid';
+
+                    // Process all direct children (li)
+                    const listItems = Array.from(ul.children).filter(child => child.tagName === 'LI');
+
+                    listItems.forEach(li => {
+                        const allLinks = Array.from(li.querySelectorAll('a'));
+                        if (allLinks.length === 0) return; // skip if no link
+
+                        let title = "";
+                        let titleHref = "";
+                        let isPdf = false;
+                        let thumbSrc = "";
+                        let descHtml = "";
+
+                        const pdfLink = allLinks.find(a => a.getAttribute('href').toLowerCase().endsWith('.pdf'));
+                        const externalLink = allLinks.find(a => !a.getAttribute('href').toLowerCase().endsWith('.pdf') && a.getAttribute('href').startsWith('http'));
+                        const customImg = li.querySelector('img');
+
+                        const firstChild = li.firstChild;
+                        const startsWithText = firstChild && (firstChild.nodeType === Node.TEXT_NODE && firstChild.textContent.trim().length > 0 || firstChild.nodeName !== 'A');
+
+                        const liClone = li.cloneNode(true);
+
+                        // Remove custom image from description if present
+                        if (customImg) {
+                            const clonedImg = liClone.querySelector('img');
+                            if (clonedImg) clonedImg.remove();
+                        }
+
+                        if (startsWithText) {
+                            // APA / Descriptive style
+                            const em = li.querySelector('em') || li.querySelector('strong');
+                            if (em) {
+                                title = em.textContent;
+                            } else if (pdfLink) {
+                                title = decodeURIComponent(pdfLink.getAttribute('href').split('/').pop().replace('.pdf', ''));
+                            } else {
+                                title = "Bronverwijzing";
+                            }
+
+                            titleHref = externalLink ? externalLink.getAttribute('href') : (pdfLink ? pdfLink.getAttribute('href') : "#");
+
+                            if (pdfLink) {
+                                const clonedPdfLink = Array.from(liClone.querySelectorAll('a')).find(a => a.getAttribute('href') === pdfLink.getAttribute('href'));
+                                if (clonedPdfLink) {
+                                    clonedPdfLink.remove();
+                                }
+                            }
+                            descHtml = liClone.innerHTML.replace(/\s*\[(?:PDF|Preprint)?\]\s*$/i, '').trim();
+                        } else {
+                            // Traditional format: * [Titel](url) Beschrijving
+                            const firstLink = allLinks[0];
+                            title = firstLink.textContent;
+                            titleHref = firstLink.getAttribute('href');
+
+                            // Remove exactly the first link
+                            const firstClonedLink = liClone.querySelector('a');
+                            if (firstClonedLink) firstClonedLink.remove();
+
+                            const nestedUl = liClone.querySelector('ul');
+                            if (nestedUl) {
+                                descHtml = `<ul>${nestedUl.innerHTML}</ul>`;
+                            } else {
+                                descHtml = liClone.innerHTML.replace(/^(\s*[-:]?\s*(?:<br>\s*)?)/i, '').trim();
+                            }
+                        }
+
+                        if (customImg) {
+                            thumbSrc = customImg.getAttribute('src');
+                        } else if (pdfLink) {
+                            isPdf = true;
+                            const href = pdfLink.getAttribute('href');
+                            const filename = decodeURIComponent(href.split('/').pop());
+                            thumbSrc = `thumbnails/${filename}.png`;
+                        } else {
+                            thumbSrc = "media/image(2).png";
+                        }
+
+                        // Build Footer Buttons
+                        let footerHtml = "";
+                        if (pdfLink) {
+                            const pHref = pdfLink.getAttribute('href');
+                            footerHtml += `<span class="badge pdf">PDF</span>
+                                           <a href="${pHref}" class="btn" target="_blank" download>Download PDF</a>`;
+                        }
+                        if (externalLink) {
+                            const eHref = externalLink.getAttribute('href');
+                            footerHtml += `<span class="badge link" style="margin-left: 10px;">Link</span>
+                                           <a href="${eHref}" class="btn" target="_blank">Open Link</a>`;
+                        }
+                        if (!pdfLink && !externalLink && allLinks.length > 0) {
+                            const fHref = allLinks[0].getAttribute('href');
+                            footerHtml += `<span class="badge link">Link</span>
+                                           <a href="${fHref}" class="btn" target="_blank">Open Link</a>`;
+                        }
+
+                        // Create Card structure
+                        const card = document.createElement('div');
+                        card.className = 'card';
+
+                        card.innerHTML = `
+                            <div class="card-thumb">
+                                <img src="${thumbSrc}" alt="${title}" loading="lazy" onerror="this.src='media/image.png'">
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">
+                                    <a href="${titleHref}" target="_blank">${title}</a>
+                                </h3>
+                                <div class="card-desc">${descHtml}</div>
+                                <div class="card-footer" style="flex-wrap: wrap; gap: 10px; justify-content: flex-start;">
+                                    ${footerHtml}
+                                </div>
+                            </div>
+                        `;
+
+                        gridDiv.appendChild(card);
+                    });
+
+                    // Replace UL with Grid Div
+                    ul.parentNode.replaceChild(gridDiv, ul);
+                });
+
+                // --- NEW: TOC Scroll Spy ---
+                const observerOptions = {
+                    root: document.getElementById('content'),
+                    rootMargin: '0px 0px -60% 0px', // Adjusted to trigger earlier when scrolling down
+                    threshold: 0
+                };
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Remove active class from all
+                            document.querySelectorAll('.toc-item').forEach(item => {
+                                item.classList.remove('active');
+                            });
+                            // Add active class to corresponding nav item
+                            const id = entry.target.getAttribute('id');
+                            const navItem = document.querySelector(`.toc-item[href="#${id}"]`);
+                            if (navItem) {
+                                navItem.classList.add('active');
+                                // Scroll sidebar if needed
+                                navItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }
+                        }
+                    });
+                }, observerOptions);
+
+                // Observe all headers
+                headers.forEach(h2 => observer.observe(h2));
+                
+                // --- NEW: Back to Top Button ---
+                const backToTopBtn = document.getElementById('back-to-top');
+                const contentDiv = document.getElementById('content');
+                
+                contentDiv.addEventListener('scroll', () => {
+                    if (contentDiv.scrollTop > 400) {
+                        backToTopBtn.style.display = 'block';
+                    } else {
+                        backToTopBtn.style.display = 'none';
+                    }
+                });
+
+                backToTopBtn.addEventListener('click', () => {
+                    contentDiv.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+
+            }
+
+            // Search Functionality
+            searchBox.addEventListener('input', function (e) {
+                const term = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('.card');
+
+                cards.forEach(card => {
+                    const title = card.querySelector('.card-title').textContent.toLowerCase();
+                    const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+
+                    if (title.includes(term) || desc.includes(term)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

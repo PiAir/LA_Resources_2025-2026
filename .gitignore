@@ -1,0 +1,7 @@
+LA_MOVEL_*
+Phd Mayari/
+venv/
+.DS_Store
+processed_content/pdfs/*.pdf
+releases/
+__pycache__/
