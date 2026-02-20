@@ -94,7 +94,7 @@ Als je een specifieke externe link hebt (zoals een website) en je wilt zélf bep
 
 ---
 
-## � 4. Uitzonderingen: Géén kaarten genereren
+## 4. Uitzonderingen: Géén kaarten genereren
 
 Soms wil je gewoon een simpele, ouderwetse opsommingslijst met linkjes maken, zonder dat de webapp er grote kaarten van probeert te maken.
 
@@ -108,7 +108,7 @@ Dat kan heel eenvoudig! Plaats de tekst `<!-- no-cards -->` ergens in of direct 
 
 ---
 
-## �🛠️ 5. Samenvattend: Regels voor de Kaarten
+## 🛠️ 5. Samenvattend: Regels voor de Kaarten
 1. **De bron MOET een link zijn in een "opsomming" (`* ` of `- `).** 
 2. De tekst van de link wordt de **titel** van de kaart.
 3. Wil je een eigen afbeelding? Plaats deze dan als Markdown afbeelding `![alt](str)` in hetzelfde lijst-item.
